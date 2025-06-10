@@ -18,7 +18,26 @@ The indicator automatically hides when the mouse is disconnected or in sleep mod
 ### Prerequisites
 - GNOME Shell version 45
 - Glorious Model O Wireless mouse
-- `mow` command line tool for reading battery status
+- `mow` command line tool for reading battery status (see below for installation)
+
+### Installing MOW dependency
+The extension requires the `mow` command line tool, which can be installed from:
+https://github.com/korkje/mow
+
+To install MOW:
+```bash
+# Clone the repository
+git clone https://github.com/korkje/mow
+cd mow
+
+# Install using cargo (requires Rust)
+cargo install --path .
+```
+
+If you don't have Rust installed, first install it using:
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
 
 ### Manual Installation
 1. Download the latest release
@@ -46,16 +65,7 @@ The indicator automatically hides when the mouse is disconnected or in sleep mod
 
 - GNOME Shell 45 or later
 - Glorious Model O Wireless mouse
-- `mow` command line tool installed and accessible
-
-## Installation
-
-1. Clone this repository or download the latest release
-2. Copy the extension files to `~/.local/share/gnome-shell/extensions/mouse-battery@seyhankokcu`
-3. Restart GNOME Shell:
-   - Press Alt+F2, type 'r', and press Enter
-   - Or log out and log back in
-4. Enable the extension using GNOME Extensions app or Extensions Manager
+- `mow` command line tool (Rust-based utility for Glorious Model O Wireless mouse)
 
 ## Usage
 
