@@ -3,7 +3,7 @@
     "name": "Glorious Model O Battery",
     "description": "Shows battery level and charging status of Glorious Model O Wireless mouse",
     "version": 1,
-    "shell-version": ["45"],
+    "shell-version": ["45", "46", "47", "48"],
     "url": "https://github.com/seyhankokcu/glorious-model-o-battery-gnome",
     "settings-schema": "org.gnome.shell.extensions.mouse-battery"
 }

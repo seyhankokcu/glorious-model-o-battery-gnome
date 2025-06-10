@@ -16,7 +16,7 @@ The indicator automatically hides when the mouse is disconnected or in sleep mod
 ## Installation
 
 ### Prerequisites
-- GNOME Shell version 45
+- GNOME Shell version 45-48
 - Glorious Model O Wireless mouse
 - `mow` command line tool for reading battery status (see below for installation)
 
