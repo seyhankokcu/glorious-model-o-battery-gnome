@@ -1,0 +1,39 @@
+/* Top panel indicator styles */
+.mouse-battery-indicator {
+    margin: 0 6px;
+    padding: 0 2px;
+}
+
+.mouse-battery-label {
+    margin-left: 2px;
+    min-width: 40px;
+}
+
+/* Popup menu styles */
+.mouse-battery-header {
+    margin: 6px 12px;
+    padding: 2px 0;
+}
+
+.mouse-battery-model {
+    font-weight: bold;
+    font-size: 14px;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+}
+
+.mouse-battery-info-item {
+    margin: 4px 12px;
+    color: #ffffff;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Battery status icon colors */
+.charging-icon {
+    color: #ffbe6f;  /* Amber yellow for charging */
+}
+
+.fully-charged-icon {
+    color: #57e389;  /* Adwaita green for fully charged */
+}

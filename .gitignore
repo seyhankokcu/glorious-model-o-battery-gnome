@@ -1,0 +1,12 @@
+# Backup files
+*~
+
+# Build artifacts
+*.zip
+
+# Generated schemas
+schemas/*.compiled
+
+# IDE
+.vscode/
+.idea/
