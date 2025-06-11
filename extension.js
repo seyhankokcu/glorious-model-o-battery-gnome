@@ -20,6 +20,7 @@ import GLib from 'gi://GLib';
 import St from 'gi://St';
 import GObject from 'gi://GObject';
 import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
@@ -66,14 +67,37 @@ class MouseBatteryIndicator extends PanelMenu.Button {
         this.add_child(box);
 
         this._createMenu();
-        this._updateBattery();
         
-        // Set up periodic updates
+        // Initial battery status update
+        this._updateBattery().catch(e => {
+            console.error('Error in initial battery status update:', e);
+            this.hide();
+        });
+        
+        // Get settings
+        this._settings = this.extension.getSettings();
+        
+        // Set up periodic updates based on settings
+        this._settings.connect('changed::update-interval', () => {
+            if (this._timeout) {
+                GLib.source_remove(this._timeout);
+            }
+            this._addTimeout();
+        });
+        
+        this._addTimeout();
+    }
+
+    _addTimeout() {
+        const interval = this._settings.get_int('update-interval');
         this._timeout = GLib.timeout_add_seconds(
             GLib.PRIORITY_DEFAULT,
-            UPDATE_INTERVAL,
+            interval,
             () => {
-                this._updateBattery();
+                this._updateBattery().catch(e => {
+                    console.error('Error updating battery status:', e);
+                    this.hide();
+                });
                 return GLib.SOURCE_CONTINUE;
             }
         );
@@ -109,16 +133,32 @@ class MouseBatteryIndicator extends PanelMenu.Button {
         this.menu.addMenuItem(this._batteryItem);
     }
 
-    _updateBattery() {
+    async _updateBattery() {
         try {
-            let [ok, stdout, stderr, exit] = GLib.spawn_command_line_sync('mow report battery');
+            const proc = new Gio.Subprocess({
+                argv: ['mow', 'report', 'battery'],
+                flags: Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
+            });
             
-            if (!ok || exit !== 0) {
+            proc.init(null);
+            
+            const result = await new Promise((resolve, reject) => {
+                proc.communicate_utf8_async(null, null, (proc, result) => {
+                    try {
+                        const [, stdout, stderr] = proc.communicate_utf8_finish(result);
+                        resolve({ stdout, stderr });
+                    } catch (e) {
+                        reject(e);
+                    }
+                });
+            });
+
+            const status = result.stdout.trim();
+            
+            if (!status || proc.get_status() !== 0) {
                 this.hide();
                 return;
             }
-
-            let status = new TextDecoder().decode(stdout).trim();
             
             // Handle sleep or invalid state
             if (status === '(asleep)' || !status.includes('%')) {

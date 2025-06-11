@@ -1,7 +1,7 @@
 {
     "uuid": "mouse-battery@seyhankokcu",
     "name": "Glorious Model O Battery",
-    "description": "Shows battery level and charging status of Glorious Model O Wireless mouse",
+    "description": "Shows battery level and charging status of Glorious Model O Wireless mouse. This extension uses 'mow' command line tool as its dependency.",
     "version": 1,
     "shell-version": ["45", "46", "47", "48"],
     "url": "https://github.com/seyhankokcu/glorious-model-o-battery-gnome",
